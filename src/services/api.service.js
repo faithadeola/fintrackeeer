@@ -89,4 +89,56 @@ export const APIService = {
       },
     }).then(res => res.json());
 },
+getUserBudgets: () => {
+  return fetch('https://finance-manager-api-5wzn.onrender.com/api/budgets', {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  }).then(res => res.json());
+},
+createUserBudget: (budget) => {
+  return fetch('https://finance-manager-api-5wzn.onrender.com/api/api/budgets', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(budget)
+  }).then(res => res.json());
+},
+updateUserBudgetByID: (budget) => {
+  return fetch('https://finance-manager-api-5wzn.onrender.com/api/budgets/'+budget._id, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(budget)
+  }).then(res => res.json());
+},
+deleteUserBudgetByID: (budget) => {
+  return fetch('https://finance-manager-api-5wzn.onrender.com/api/budgets/'+ budget.id, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+  }).then(res => res.json());
+},
+getUserTransaction: () => {
+  return fetch('https://finance-manager-api-5wzn.onrender.com/api/transactions', {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  }).then(res => res.json());
+},
+createUserTransaction: (transaction) => {
+  return fetch('https://finance-manager-api-5wzn.onrender.com/api/api/transactions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(budget)
+  }).then(res => res.json());
+},
+updateUserTransactionByID: (transaction) => {
+  return fetch('https://finance-manager-api-5wzn.onrender.com/api/transactions/'+transaction._id, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(transaction)
+  }).then(res => res.json());
+},
+deleteUserTransactionByID: (transaction) => {
+  return fetch('https://finance-manager-api-5wzn.onrender.com/api/transactions/'+ transaction.id, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+  }).then(res => res.json());
+},
 }

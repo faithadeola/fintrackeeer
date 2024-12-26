@@ -5,7 +5,7 @@
       <!-- Add Debt Button -->
       <button
         @click="openAddDebtModal"
-        class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mb-4"
+        class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-500 mb-4"
       >
         Add New Debt
       </button>
