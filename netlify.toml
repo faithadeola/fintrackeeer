@@ -1,0 +1,13 @@
+[build]
+  # Command to build your Vue app
+  command = "npm run build"
+  # Directory where the build output is stored
+  publish = "dist"
+  # Optional: Set custom environment variables
+  environment = { VITE_API_URL = "https://api.example.com" }
+
+[[redirects]]
+  # Redirect all routes to index.html for a single-page application
+  from = "/*"
+  to = "/index.html"
+  status = 200
