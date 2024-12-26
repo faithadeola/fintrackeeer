@@ -63,7 +63,7 @@
   </template>
   
   <script>
-  import { getUserProfile, updateUserProfile, deleteUserProfile } from "../services/api.service";
+  import { APIService } from '../services/api.service'
   
   export default {
     data() {
@@ -78,7 +78,7 @@
     },
     async mounted() {
       try {
-        const response = await getUserProfile();
+        const response = await APIService.getUserProfile();
         this.profile = response.data;
       } catch (error) {
         console.error("Error fetching profile:", error);
@@ -93,7 +93,7 @@
       },
       async updateProfile() {
         try {
-          await updateUserProfile(this.profile);
+          await APIService.updateUserProfile(this.profile);
           this.editing = false;
           alert("Profile updated successfully!");
         } catch (error) {
@@ -104,7 +104,7 @@
       async deleteProfile() {
         if (confirm("Are you sure you want to delete your profile? This action cannot be undone.")) {
           try {
-            await deleteUserProfile();
+            await APIService.deleteUserProfile();
             alert("Profile deleted successfully!");
             localStorage.removeItem("token");
             this.$router.push("/login");

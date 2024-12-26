@@ -61,7 +61,7 @@ const isSignup = ref(false)
 const handleSubmit = async ({ form: formData, setError }) => {
   try {
     const response = isSignup.value
-      ? await APIService.signup(formData)
+      ? await APIService.login(formData)
       : await APIService.login(formData)
     console.log(response)
     if (!response.error) {
