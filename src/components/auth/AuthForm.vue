@@ -120,18 +120,19 @@ const validateForm = () => {
   }
 
   // Terms validation (only for signup)
-  if (props.isSignup && !form.terms) {
-    errors.terms = 'You must agree to the Terms and Privacy Policy'
-    isValid = false
-  }
+//   if (props.isSignup && !form.terms) {
+//     errors.terms = 'You must agree to the Terms and Privacy Policy'
+//     isValid = false
+//   }
 
-  return isValid
-}
+//   return isValid
+// }
 
 const handleSubmit = () => {
   if (validateForm()) {
     error.value = ''
     emit('submit', { form, setError: (msg) => error.value = msg })
   }
+}
 }
 </script>

@@ -67,7 +67,7 @@ const handleSubmit = async ({ form: formData, setError }) => {
     if (!response.error) {
       auth.setUser(response.data)
       toast.success(`Successfully ${isSignup.value ? 'signed up' : 'logged in'}!`)
-      //router.push('/dashboard')
+      router.push('/dashboard')
     } else {
       setError(response.data?.message || 'Authentication failed')
       toast.error(response.data?.message || 'Authentication failed')
