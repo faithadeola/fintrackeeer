@@ -76,16 +76,15 @@ const error = ref('')
 const errors = reactive({
   name: '',
   email: '',
-  password: '',
-  terms: ''
+  password: ''
+
 })
 
 const showPassword = ref(false)
 const form = reactive({
   name: '',
   email: '',
-  password: '',
-  terms: false
+  password: ''
 })
 
 const validateForm = () => {
@@ -124,15 +123,12 @@ const validateForm = () => {
 //     errors.terms = 'You must agree to the Terms and Privacy Policy'
 //     isValid = false
 //   }
-
-//   return isValid
-// }
-
+ return isValid
+ }
 const handleSubmit = () => {
   if (validateForm()) {
     error.value = ''
     emit('submit', { form, setError: (msg) => error.value = msg })
   }
-}
 }
 </script>
