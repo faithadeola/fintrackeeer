@@ -66,7 +66,7 @@ const isOpen = ref(false)
 const navItems = [
   { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
   { name: 'Budgets', path: '/budgets', icon: PiggyBank },
-  //{ name: 'Calendar', path: '/calendar', icon: Calendar },
+  { name: 'Transactions', path: '/transactions', icon: Wallet },
   //{ name: 'Accounts', path: '/accounts', icon: Wallet },
   { name: 'Savings', path: '/savings', icon: CoinsIcon },
   //{ name: 'Debts', path: '/debts', icon: CreditCard },

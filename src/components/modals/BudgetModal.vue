@@ -31,7 +31,7 @@
 
               <form @submit.prevent="handleSubmit" class="space-y-4">
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
                   <input
                     type="text"
                     v-model="form.name"
@@ -53,43 +53,19 @@
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Duration</label>
                   <select
-                    v-model="form.category"
+                    v-model="form.duration"
                     class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                  >
-                    <option value="">Select category</option>
-                    <option value="expense">Expense</option>
-                    <option value="income">Income</option>
+                    placeholder="Select duration"
+                    ><option value = "weekly">Weekly</option>
+                    <option value = "monthly">Monthly</option>
+                    <option value = "yearly">Yearly</option>
                   </select>
                 </div>
-
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Period</label>
-                  <div class="grid grid-cols-2 gap-4">
-                    <input
-                      type="date"
-                      v-model="form.startDate"
-                      class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                    >
-                    <input
-                      type="date"
-                      v-model="form.endDate"
-                      class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                    >
-                  </div>
-                </div>
-
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Note</label>
-                  <textarea
-                    v-model="form.note"
-                    rows="2"
-                    class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                    placeholder="Add a note..."
-                  ></textarea>
-                </div>
-
+                
+                
+                
                 <div class="flex justify-end gap-3 mt-6">
                   <button
                     type="button"

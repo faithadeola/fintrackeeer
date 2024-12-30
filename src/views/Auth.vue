@@ -65,15 +65,15 @@ const handleSubmit = async ({ form: formData, setError }) => {
       : await APIService.login(formData)
     console.log(response)
     if (!response.error) {
-      auth.setUser(response.data)
-      toast.success(`Successfully ${isSignup.value ? 'signed up' : 'logged in'}!`)
+      auth.setUser(response)
+      toast.success(response?.message || 'User successfully logged in')
       router.push('/dashboard')
     } else {
-      setError(response.data?.message || 'Authentication failed')
-      toast.error(response.data?.message || 'Authentication failed')
+      setError(response?.message || 'Authentication failed')
+      toast.error(response?.message || 'Authentication failed')
     }
   } catch (error) {
-    const errorMessage = error.response?.data?.message || 'An unexpected error occurred'
+    const errorMessage = error.response?.message || 'An unexpected error occurred'
     setError(errorMessage)
     toast.error(errorMessage)
     console.error('Auth error:', error)

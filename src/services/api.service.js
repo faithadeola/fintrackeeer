@@ -1,3 +1,4 @@
+import { auth } from '../utils/auth'
 const useMock = false;
 const mockDelay = 1000;
 
@@ -92,7 +93,7 @@ export const APIService = {
 getUserBudgets: () => {
   return fetch('https://finance-manager-api-5wzn.onrender.com/api/budgets', {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json','Authorization':`Bearer ${auth.getToken()}`},
   }).then(res => res.json());
 },
 createUserBudget: (budget) => {
@@ -110,7 +111,7 @@ updateUserBudgetByID: (budget) => {
   }).then(res => res.json());
 },
 deleteUserBudgetByID: (budget) => {
-  return fetch('https://finance-manager-api-5wzn.onrender.com/api/budgets/'+ budget.id, {
+  return fetch('https://finance-manager-api-5wzn.onrender.com/api/budgets/'+ budget._id, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
   }).then(res => res.json());
@@ -136,7 +137,7 @@ updateUserTransactionByID: (transaction) => {
   }).then(res => res.json());
 },
 deleteUserTransactionByID: (transaction) => {
-  return fetch('https://finance-manager-api-5wzn.onrender.com/api/transactions/'+ transaction.id, {
+  return fetch('https://finance-manager-api-5wzn.onrender.com/api/transactions/'+ transaction._id, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
   }).then(res => res.json());

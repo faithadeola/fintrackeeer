@@ -38,19 +38,13 @@
           percentage="64"
           type="warning"
           message="You've spent over half your budget. Review your goals below."
+          v-for="budget in budgets" :key="budget?._id"
         />
-        <BudgetOverviewCard 
-          title="Financial progress"
-          current="9,000"
-          total="12,000"
-          percentage="75"
-          type="success"
-          message="Great job! You've almost reached your goal."
-        />
+        
       </div>
 
       <!-- Spending Categories -->
-      <div class="space-y-6">
+      <div class="space-y-6 hidden">
         <div class="flex items-center justify-between">
           <h2 class="text-xl font-semibold text-gray-800">Spending</h2>
           <button class="text-sm text-primary hover:text-primary-600">
@@ -58,7 +52,7 @@
           </button>
         </div>
         
-        <div class="space-y-4">
+        <div class="space-y-4 hidden">
           <BudgetCategoryCard 
             v-for="category in spendingCategories" 
             :key="category.id"
@@ -68,7 +62,7 @@
       </div>
 
       <!-- Income Section -->
-      <div class="mt-8 space-y-6">
+      <div class="mt-8 space-y-6 hidden">
         <div class="flex items-center justify-between">
           <h2 class="text-xl font-semibold text-gray-800">Income</h2>
           <button class="text-sm text-primary hover:text-primary-600">
@@ -76,7 +70,7 @@
           </button>
         </div>
         
-        <div class="space-y-4">
+        <div class="space-y-4 hidden">
           <BudgetCategoryCard 
             v-for="income in incomeCategories" 
             :key="income.id"
@@ -101,7 +95,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { Calendar } from 'lucide-vue-next'
 import { useToast } from 'vue-toastification'
 import Sidebar from '../components/layout/Sidebar.vue'
@@ -110,10 +104,38 @@ import BudgetOverviewCard from '../components/budgets/BudgetOverviewCard.vue'
 import BudgetCategoryCard from '../components/budgets/BudgetCategoryCard.vue'
 import TransactionModal from '../components/modals/TransactionModal.vue'
 import BudgetModal from '../components/modals/BudgetModal.vue'
+import { APIService } from '../services/api.service'
 
 const toast = useToast()
 const showTransactionModal = ref(false)
 const showBudgetModal = ref(false)
+const budgets = ref([])
+const loading = ref(false)
+const error = ref(false)
+
+onMounted (()=>{
+  fetchUserBudgets()
+})
+const  fetchUserBudgets = async () =>{
+  loading.value = true
+  toast('loading...',{timeout :false})
+  try {
+    const response = await APIService.getUserBudgets()
+    if (!response.error) {
+      budgets.value = response.data
+    }
+    else {
+      toast.error('Request failed!')
+    }
+  }
+  catch(error) {
+    toast.error('Request failed!')
+  }
+  finally{
+    loading.value = false
+    toast.clear()
+  }
+}
 
 const handleTransactionSubmit = (data) => {
   console.log('Transaction submitted:', data)
@@ -182,4 +204,5 @@ const incomeCategories = [
     type: 'warning'
   }
 ]
+
 </script>
