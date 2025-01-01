@@ -97,49 +97,49 @@ getUserBudgets: () => {
   }).then(res => res.json());
 },
 createUserBudget: (budget) => {
-  return fetch('https://finance-manager-api-5wzn.onrender.com/api/api/budgets', {
+  return fetch('https://finance-manager-api-5wzn.onrender.com/api/budgets', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json','Authorization':`Bearer ${auth.getToken()}`},
     body: JSON.stringify(budget)
   }).then(res => res.json());
 },
 updateUserBudgetByID: (budget) => {
   return fetch('https://finance-manager-api-5wzn.onrender.com/api/budgets/'+budget._id, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json','Authorization':`Bearer ${auth.getToken()}`},
     body: JSON.stringify(budget)
   }).then(res => res.json());
 },
 deleteUserBudgetByID: (budget) => {
   return fetch('https://finance-manager-api-5wzn.onrender.com/api/budgets/'+ budget._id, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json','Authorization':`Bearer ${auth.getToken()}`},
   }).then(res => res.json());
 },
-getUserTransaction: () => {
+getUserTransactions: () => {
   return fetch('https://finance-manager-api-5wzn.onrender.com/api/transactions', {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json','Authorization':`Bearer ${auth.getToken()}`},
   }).then(res => res.json());
 },
 createUserTransaction: (transaction) => {
-  return fetch('https://finance-manager-api-5wzn.onrender.com/api/api/transactions', {
+  return fetch('https://finance-manager-api-5wzn.onrender.com/api/transactions', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(budget)
+    headers: { 'Content-Type': 'application/json','Authorization':`Bearer ${auth.getToken()}`},
+    body: JSON.stringify(transaction)
   }).then(res => res.json());
 },
 updateUserTransactionByID: (transaction) => {
   return fetch('https://finance-manager-api-5wzn.onrender.com/api/transactions/'+transaction._id, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json','Authorization':`Bearer ${auth.getToken()}`},
     body: JSON.stringify(transaction)
   }).then(res => res.json());
 },
 deleteUserTransactionByID: (transaction) => {
   return fetch('https://finance-manager-api-5wzn.onrender.com/api/transactions/'+ transaction._id, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json','Authorization':`Bearer ${auth.getToken()}`},
   }).then(res => res.json());
 },
 }

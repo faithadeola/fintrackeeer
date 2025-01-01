@@ -3,12 +3,12 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16 w-full">
         <div class="flex items-center gap-4">
-          <h1 class="text-xl font-semibold text-gray-900">{{ route.name }}</h1>
+          <h1 class="text-xl font-semibold text-gray-900 capitalize">{{ route.name }}</h1>
         </div>
 
         <div class="flex items-center gap-2 sm:gap-4">
           <div class="hidden sm:block">
-            <div class="flex items-center gap-2">
+            <div class="hidden items-center gap-2">
               <span class="text-sm text-gray-500">Balance</span>
               <span class="text-lg font-semibold">{{ formatNaira(15300) }}</span>
             </div>
@@ -16,7 +16,7 @@
 
           <button 
             @click="showTransactionModal = true"
-            class="hidden sm:block px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors"
+            class="hidden px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors"
           >
             + Transaction
           </button>
@@ -89,24 +89,20 @@ import { auth } from '../../utils/auth'
 import { useToast } from 'vue-toastification'
 import { formatNaira } from '../../utils/currency'
 import TransactionModal from '../modals/TransactionModal.vue'
-
 const route = useRoute()
 const router = useRouter()
 const toast = useToast()
 const user = auth.getUser()
 const showTransactionModal = ref(false)
-
 const handleLogout = () => {
   auth.removeUser()
   toast.success('Successfully logged out!')
   router.push('/')
 }
-
 const handleTransactionSubmit = (data) => {
   console.log('Transaction submitted:', data)
   toast.success('Transaction added successfully!')
 }
-
 const navigateToProfile = () => {
   router.push('/profile')
 }

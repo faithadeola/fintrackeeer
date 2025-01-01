@@ -2,94 +2,63 @@
   <div class="min-h-screen bg-gray-50 lg:pl-64">
     <Sidebar />
     <Navbar />
-    
+
     <main class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
       <!-- Header with Actions -->
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+      <div
+        class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6"
+      >
         <div class="flex items-center gap-4">
-          <h1 class="text-2xl font-semibold text-gray-900">Monthly Budget</h1>
-          <div class="hidden sm:flex items-center gap-2 text-sm text-gray-500">
+          <h1 class="text-2xl font-semibold text-gray-900 hidden">Monthly Budget</h1>
+          <div class="hidden items-center gap-2 text-sm text-gray-500">
             <Calendar class="w-4 h-4" />
             <span>05 Jun, 24 - 05 Jul, 24</span>
           </div>
         </div>
         <div class="flex gap-3">
-          <button 
+          <button
             @click="showBudgetModal = true"
             class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors"
           >
-            + Budget
-          </button>
-          <button 
-            @click="showTransactionModal = true"
-            class="px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors"
-          >
-            + Transaction
+            Add Budget
           </button>
         </div>
       </div>
 
       <!-- Overview Cards -->
+        <div v-if="budgets.length === 0 && !loading" class="w-full p-4 text-center text-gray-500">
+          You do not have any budgets yet.
+        </div>
       <div class="grid gap-4 sm:grid-cols-2 mb-8">
-        <BudgetOverviewCard 
-          title="Personal expenses"
-          current="4,500"
-          total="7,400"
-          percentage="64"
+        <BudgetOverviewCard
+          :title="budget?.title"
+          :total="budget?.total_amount"
           type="warning"
-          message="You've spent over half your budget. Review your goals below."
-          v-for="budget in budgets" :key="budget?._id"
+          :date="new Date(budget?.createdAt).toLocaleDateString()"
+          :message="budget?.duration"
+          v-for="budget in budgets" :key="budget._id"
+          @click="openViewModal(budget)"
         />
-        
-      </div>
-
-      <!-- Spending Categories -->
-      <div class="space-y-6 hidden">
-        <div class="flex items-center justify-between">
-          <h2 class="text-xl font-semibold text-gray-800">Spending</h2>
-          <button class="text-sm text-primary hover:text-primary-600">
-            Add Category
-          </button>
-        </div>
-        
-        <div class="space-y-4 hidden">
-          <BudgetCategoryCard 
-            v-for="category in spendingCategories" 
-            :key="category.id"
-            v-bind="category"
-          />
-        </div>
-      </div>
-
-      <!-- Income Section -->
-      <div class="mt-8 space-y-6 hidden">
-        <div class="flex items-center justify-between">
-          <h2 class="text-xl font-semibold text-gray-800">Income</h2>
-          <button class="text-sm text-primary hover:text-primary-600">
-            Add Income
-          </button>
-        </div>
-        
-        <div class="space-y-4 hidden">
-          <BudgetCategoryCard 
-            v-for="income in incomeCategories" 
-            :key="income.id"
-            v-bind="income"
-          />
-        </div>
       </div>
     </main>
-    
-    <TransactionModal 
+
+    <TransactionModal
       :is-open="showTransactionModal"
       @close="showTransactionModal = false"
       @submit="handleTransactionSubmit"
     />
-    
+
     <BudgetModal
       :is-open="showBudgetModal"
       @close="showBudgetModal = false"
       @submit="handleBudgetSubmit"
+    />
+    <BudgetViewModal
+      :is-open="isViewModalOpen"
+      :budget="selectedBudget"
+      @close="closeViewModal"
+      @edit="handleBudgetUpdate"
+      @delete="handleBudgetDelete"
     />
   </div>
 </template>
@@ -101,28 +70,36 @@ import { useToast } from 'vue-toastification'
 import Sidebar from '../components/layout/Sidebar.vue'
 import Navbar from '../components/layout/Navbar.vue'
 import BudgetOverviewCard from '../components/budgets/BudgetOverviewCard.vue'
-import BudgetCategoryCard from '../components/budgets/BudgetCategoryCard.vue'
+import BudgetViewModal from "../components/modals/BudgetViewModal.vue";
 import TransactionModal from '../components/modals/TransactionModal.vue'
 import BudgetModal from '../components/modals/BudgetModal.vue'
 import { APIService } from '../services/api.service'
-
 const toast = useToast()
 const showTransactionModal = ref(false)
 const showBudgetModal = ref(false)
+const isViewModalOpen = ref(false)
 const budgets = ref([])
 const loading = ref(false)
 const error = ref(false)
-
+const selectedBudget = ref(null)
 onMounted (()=>{
   fetchUserBudgets()
 })
+const closeViewModal = () => {
+  isViewModalOpen.value = false
+  // selectedBudget.value = null
+}
+const openViewModal = (budget) => {
+  selectedBudget.value = budget
+  isViewModalOpen.value = true
+}
 const  fetchUserBudgets = async () =>{
   loading.value = true
-  toast('loading...',{timeout :false})
+  toast(budgets.value.length === 0 ? "loading..." : "Reloading transactions", {timeout :false, closeButton:  false })
   try {
     const response = await APIService.getUserBudgets()
     if (!response.error) {
-      budgets.value = response.data
+      budgets.value = response
     }
     else {
       toast.error('Request failed!')
@@ -136,73 +113,76 @@ const  fetchUserBudgets = async () =>{
     toast.clear()
   }
 }
-
 const handleTransactionSubmit = (data) => {
   console.log('Transaction submitted:', data)
   toast.success('Transaction added successfully!')
 }
-
-const handleBudgetSubmit = (data) => {
+const handleBudgetSubmit = async (data) => {
+  loading.value = true
   console.log('Budget submitted:', data)
-  toast.success('Budget created successfully!')
+  toast('Creating Budget...',{timeout :false, closeButton:  false })
+  try {
+    const response = await APIService.createUserBudget(data)
+    toast.clear()
+    if (!response.error) {
+      toast.success('Budget created successfully!')
+      fetchUserBudgets()
+    }
+    else {
+      toast.error('Budget Creation failed!')
+    }
+  }
+  catch (error) {
+    toast.clear()
+      toast.error('Budget Creation failed!')
+  }
+  finally {
+    loading.value = false
+  }
 }
-
-const spendingCategories = [
-  {
-    id: 1,
-    icon: '🛒',
-    name: 'Groceries',
-    dateRange: 'June 5 to July 5',
-    timestamp: '2024-10:35',
-    amount: 1800,
-    spent: 1200,
-    note: "I'm eating more fish this month",
-    type: 'warning'
-  },
-  {
-    id: 2,
-    icon: '⛽',
-    name: 'Petrol',
-    dateRange: 'June 5 to July 5',
-    timestamp: '2024-10:35',
-    amount: 800,
-    spent: 200,
-    note: 'Budget for 2 cars',
-    type: 'success'
-  },
-  {
-    id: 3,
-    icon: '✈️',
-    name: 'Holidays',
-    dateRange: 'June 5 to July 5',
-    timestamp: '2024-10:35',
-    amount: 3500,
-    spent: 2200,
-    type: 'warning'
+const handleBudgetUpdate = async (data) => {
+  loading.value = true
+  console.log('Budget updated:', data)
+  toast('Updating Budget...',{timeout :false, closeButton:  false })
+  try {
+    const response = await APIService.updateUserBudgetByID(data)
+    toast.clear()
+    if (!response.error) {
+      toast.success('Budget updated successfully!')
+      fetchUserBudgets()
+    }
+    else {
+      toast.error('Budget Update failed!')
+    }
   }
-]
-
-const incomeCategories = [
-  {
-    id: 1,
-    icon: '💼',
-    name: 'Salary',
-    dateRange: 'June 5 to July 5',
-    timestamp: '2024-10:35',
-    amount: 5000,
-    received: 3800,
-    type: 'success'
-  },
-  {
-    id: 2,
-    icon: '💼',
-    name: 'Salary 2',
-    dateRange: 'June 5 to July 5',
-    timestamp: '2024-10:35',
-    amount: 3000,
-    received: 700,
-    type: 'warning'
+  catch (error) {
+    toast.clear()
+    toast.error('Budget Update failed!')
   }
-]
-
+  finally {
+    loading.value = false
+  }
+}
+const handleBudgetDelete = async (data) => {
+  loading.value = true
+  toast('Deleting Budget...',{timeout :false, closeButton:  false })
+  try {
+    const response = await APIService.deleteUserBudgetByID(data)
+    toast.clear()
+    if (!response.error) {
+      toast.success('Budget deleted successfully!')
+      fetchUserBudgets()
+    }
+    else {
+      toast.error('Budget Deletion failed!')
+    }
+  }
+  catch (error) {
+    toast.clear()
+    toast.error('Budget Deletion failed!')
+  }
+  finally {
+    loading.value = false
+  }
+}
 </script>

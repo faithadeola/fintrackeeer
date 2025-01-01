@@ -17,6 +17,7 @@
           
           <AuthForm
             :is-signup="isSignup"
+            :loading="loading"
             @submit="handleSubmit"
           />
 
@@ -51,15 +52,14 @@ import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { APIService } from '../services/api.service'
 import { auth } from '../utils/auth'
-import SocialButton from '../components/auth/SocialButton.vue'
 import AuthForm from '../components/auth/AuthForm.vue'
-
 const router = useRouter()
 const toast = useToast()
 const isSignup = ref(false)
-
+const loading = ref(false)
 const handleSubmit = async ({ form: formData, setError }) => {
   try {
+    loading.value = true
     const response = isSignup.value
       ? await APIService.signup(formData)
       : await APIService.login(formData)
@@ -69,31 +69,17 @@ const handleSubmit = async ({ form: formData, setError }) => {
       toast.success(response?.message || 'User successfully logged in')
       router.push('/dashboard')
     } else {
-      setError(response?.message || 'Authentication failed')
-      toast.error(response?.message || 'Authentication failed')
+      setError(response?.error || 'Authentication failed')
+      toast.error(response?.error || 'Authentication failed')
     }
   } catch (error) {
-    const errorMessage = error.response?.message || 'An unexpected error occurred'
+    const errorMessage = error.response?.error || 'An unexpected error occurred'
     setError(errorMessage)
     toast.error(errorMessage)
     console.error('Auth error:', error)
   }
-}
-
-const handleSocialLogin = async (provider) => {
-  try {
-    const response = await APIService.socialLogin(provider)
-    if (response.status === 200) {
-      auth.setUser(response.data)
-      toast.success('Successfully logged in!')
-      router.push('/dashboard')
-    } else {
-      toast.error(response.data?.message || 'Social login failed')
-    }
-  } catch (error) {
-    const errorMessage = error.response?.data?.message || 'Social login failed'
-    toast.error(errorMessage)
-    console.error('Social login error:', error)
+  finally {
+    loading.value = false
   }
 }
 </script>

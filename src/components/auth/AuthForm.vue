@@ -53,53 +53,50 @@
     </div>
     <button
       type="submit"
-      class="w-full bg-black text-white p-3 rounded-lg hover:bg-gray-800 transition-colors"
+      :disabled="loading"
+      class="w-full bg-black text-white p-3 rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
     >
-      {{ isSignup ? 'Sign up' : 'Log in' }}
+      {{ loading ? "Loading...." : isSignup ? 'Sign up' : 'Log in' }}
     </button>
   </form>
 </template>
 
 <script setup>
 import { ref, reactive, watch } from 'vue'
-
 const props = defineProps({
   isSignup: {
     type: Boolean,
     default: false
+  },
+  loading: {
+    type: Boolean,
+    default: false
   }
 })
-
 const emit = defineEmits(['submit'])
-
 const error = ref('')
 const errors = reactive({
   name: '',
   email: '',
   password: ''
-
 })
-
 const showPassword = ref(false)
 const form = reactive({
   name: '',
   email: '',
   password: ''
 })
-
 const validateForm = () => {
   let isValid = true
   
   // Reset errors
   error.value = ''
   Object.keys(errors).forEach(key => errors[key] = '')
-
   // Name validation (only for signup)
   if (props.isSignup && !form.name.trim()) {
     errors.name = 'Name is required'
     isValid = false
   }
-
   // Email validation
   if (!form.email) {
     errors.email = 'Email is required'
@@ -108,7 +105,6 @@ const validateForm = () => {
     errors.email = 'Invalid email format'
     isValid = false
   }
-
   // Password validation
   if (!form.password) {
     errors.password = 'Password is required'
@@ -117,7 +113,6 @@ const validateForm = () => {
     errors.password = 'Password must be at least 8 characters'
     isValid = false
   }
-
   // Terms validation (only for signup)
 //   if (props.isSignup && !form.terms) {
 //     errors.terms = 'You must agree to the Terms and Privacy Policy'

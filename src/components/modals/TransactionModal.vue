@@ -24,28 +24,21 @@
             leave-from="opacity-100 scale-100"
             leave-to="opacity-0 scale-95"
           >
-            <DialogPanel class="w-full max-w-md transform overflow-hidden rounded-xl bg-white p-6 shadow-xl transition-all">
-              <DialogTitle as="h3" class="text-lg font-medium text-gray-900 mb-4">
+            <DialogPanel
+              class="w-full max-w-md transform overflow-hidden rounded-xl bg-white p-6 shadow-xl transition-all"
+            >
+              <DialogTitle
+                as="h3"
+                class="text-lg font-medium text-gray-900 mb-4"
+              >
                 Add Transaction
               </DialogTitle>
 
-              <form @submit.prevent="handleSubmit" class="space-y-4">
+              <form @submit.prevent="handleSubmit" class="space-y-4 text-black">
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Type</label>
-                  <div class="flex gap-4">
-                    <label class="flex items-center gap-2">
-                      <input type="radio" v-model="form.type" value="expense" class="text-primary">
-                      <span>Expense</span>
-                    </label>
-                    <label class="flex items-center gap-2">
-                      <input type="radio" v-model="form.type" value="income" class="text-primary">
-                      <span>Income</span>
-                    </label>
-                  </div>
-                </div>
-
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Amount</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >Amount</label
+                  >
                   <input
                     type="number"
                     v-model="form.amount"
@@ -53,11 +46,13 @@
                     placeholder="0.00"
                     step="0.01"
                     min="0"
-                  >
+                  />
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >Category</label
+                  >
                   <select
                     v-model="form.category"
                     class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
@@ -70,21 +65,14 @@
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Date</label>
-                  <input
-                    type="date"
-                    v-model="form.date"
-                    class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >Narration</label
                   >
-                </div>
-
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Note</label>
                   <textarea
-                    v-model="form.note"
+                    v-model="form.narration"
                     rows="2"
                     class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                    placeholder="Add a note..."
+                    placeholder="Transaction Narration..."
                   ></textarea>
                 </div>
 
@@ -92,13 +80,14 @@
                   <button
                     type="button"
                     @click="close"
-                    class="px-4 py-2 text-sm border rounded-lg hover:bg-gray-50"
+                    class="px-4 py-2 text-sm border rounded-lg hover:bg-gray-50 text-black"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    class="px-4 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary-600"
+                    :disabled="!form.amount || !form.category"
+                    class="px-4 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   >
                     Add Transaction
                   </button>
@@ -113,46 +102,38 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive } from "vue";
 import {
   TransitionRoot,
   TransitionChild,
   Dialog,
   DialogPanel,
   DialogTitle,
-} from '@headlessui/vue'
-
+} from "@headlessui/vue";
 const props = defineProps({
   isOpen: Boolean,
-})
-
-const emit = defineEmits(['close', 'submit'])
-
+});
+const emit = defineEmits(["close", "submit"]);
 const categories = [
-  'Food & Drinks',
-  'Shopping',
-  'Transport',
-  'Entertainment',
-  'Bills',
-  'Salary',
-  'Investment',
-  'Other'
-]
-
+  "Food & Drinks",
+  "Shopping",
+  "Transport",
+  "Entertainment",
+  "Bills",
+  "Salary",
+  "Investment",
+  "Other",
+];
 const form = reactive({
-  type: 'expense',
-  amount: '',
-  category: '',
-  date: new Date().toISOString().split('T')[0],
-  note: ''
-})
-
+  amount: "",
+  category: "",
+  narration: "",
+});
 const close = () => {
-  emit('close')
-}
-
+  emit("close");
+};
 const handleSubmit = () => {
-  emit('submit', { ...form })
-  close()
-}
+  emit("submit", { ...form });
+  close();
+};
 </script>

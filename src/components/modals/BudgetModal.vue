@@ -29,12 +29,12 @@
                 Create Budget
               </DialogTitle>
 
-              <form @submit.prevent="handleSubmit" class="space-y-4">
+              <form @submit.prevent="handleSubmit" class="space-y-4 text-black">
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
                   <input
                     type="text"
-                    v-model="form.name"
+                    v-model="form.title"
                     class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                     placeholder="e.g., Monthly Groceries"
                   >
@@ -44,7 +44,7 @@
                   <label class="block text-sm font-medium text-gray-700 mb-1">Amount</label>
                   <input
                     type="number"
-                    v-model="form.amount"
+                    v-model="form.total_amount"
                     class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                     placeholder="0.00"
                     step="0.01"
@@ -70,13 +70,14 @@
                   <button
                     type="button"
                     @click="close"
-                    class="px-4 py-2 text-sm border rounded-lg hover:bg-gray-50"
+                    class="px-4 py-2 text-sm border rounded-lg hover:bg-gray-50 text-black"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    class="px-4 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary-600"
+                    :disabled="!form.title || !form.total_amount || !form.duration"
+                    class="px-4 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   >
                     Create Budget
                   </button>
@@ -99,28 +100,24 @@ import {
   DialogPanel,
   DialogTitle,
 } from '@headlessui/vue'
-
 const props = defineProps({
   isOpen: Boolean,
 })
-
 const emit = defineEmits(['close', 'submit'])
-
 const form = reactive({
-  name: '',
-  amount: '',
-  category: '',
-  startDate: new Date().toISOString().split('T')[0],
-  endDate: new Date().toISOString().split('T')[0],
-  note: ''
+  title: '',
+  total_amount: '',
+  duration: '',
 })
-
 const close = () => {
   emit('close')
 }
-
 const handleSubmit = () => {
   emit('submit', { ...form })
+  // clear form
+  // form.title = ''
+  // form.amount = ''
+  // form.duration = ''
   close()
 }
 </script>
