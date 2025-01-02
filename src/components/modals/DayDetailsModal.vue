@@ -1,7 +1,7 @@
 <template>
   <TransitionRoot appear :show="isOpen" as="template">
     <Dialog as="div" @close="close" class="relative z-50">
-      <!-- Backdrop -->
+    
       <TransitionChild
         enter="ease-out duration-300"
         enter-from="opacity-0"
@@ -13,7 +13,7 @@
         <div class="fixed inset-0 bg-black/25" />
       </TransitionChild>
 
-      <!-- Modal -->
+
       <div class="fixed inset-0 overflow-y-auto">
         <div class="flex min-h-full items-center justify-center p-4">
           <TransitionChild
@@ -25,7 +25,7 @@
             leave-to="opacity-0 scale-95"
           >
             <DialogPanel class="w-full max-w-md transform overflow-hidden rounded-xl bg-white shadow-xl transition-all">
-              <!-- Header -->
+            
               <div class="bg-black text-white p-6">
                 <div class="flex items-center justify-between mb-4">
                   <h3 class="font-medium">{{ dateFormatted }}</h3>
@@ -45,7 +45,6 @@
                 </div>
               </div>
 
-              <!-- Transactions List -->
               <div class="p-6">
                 <div class="flex items-center justify-between mb-4">
                   <h3 class="font-medium">Transactions</h3>

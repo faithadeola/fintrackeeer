@@ -4,16 +4,12 @@
     <Navbar />
 
     <main class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
-      <!-- Header with Actions -->
+    
       <div
         class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6"
       >
         <div class="flex items-center gap-4">
-          <h1 class="text-2xl font-semibold text-gray-900 hidden">Monthly Budget</h1>
-          <div class="hidden items-center gap-2 text-sm text-gray-500">
-            <Calendar class="w-4 h-4" />
-            <span>05 Jun, 24 - 05 Jul, 24</span>
-          </div>
+        
         </div>
         <div class="flex gap-3">
           <button
@@ -25,7 +21,7 @@
         </div>
       </div>
 
-      <!-- Overview Cards -->
+    
         <div v-if="budgets.length === 0 && !loading" class="w-full p-4 text-center text-gray-500">
           You do not have any budgets yet.
         </div>
@@ -65,7 +61,6 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { Calendar } from 'lucide-vue-next'
 import { useToast } from 'vue-toastification'
 import Sidebar from '../components/layout/Sidebar.vue'
 import Navbar from '../components/layout/Navbar.vue'

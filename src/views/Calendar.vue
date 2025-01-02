@@ -88,7 +88,7 @@
           </div>
         </div>
 
-        <!-- Right Sidebar -->
+        
         <div class="hidden lg:block w-80">
           <!-- Report Card -->
           <div class="bg-black text-white rounded-xl p-6 mb-6">
@@ -108,7 +108,6 @@
             </div>
           </div>
 
-          <!-- Transactions List -->
           <div class="bg-white rounded-xl p-6 shadow-sm">
             <div class="flex items-center justify-between mb-4">
               <h3 class="font-medium">Transactions</h3>

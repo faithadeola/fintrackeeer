@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="space-y-6">
-                  <!-- Progress -->
+              
                   <div>
                     <div class="flex items-baseline justify-between mb-2">
                       <span class="text-2xl font-bold">{{ formatNaira(savings.current) }}</span>
@@ -49,7 +49,7 @@
                     <p class="text-sm text-gray-500 mt-1">{{ percentage }}% completed</p>
                   </div>
 
-                  <!-- Details -->
+                  
                   <div class="space-y-4">
                     <div class="flex justify-between items-center">
                       <span class="text-gray-600">Started</span>
@@ -69,13 +69,13 @@
                     </div>
                   </div>
 
-                  <!-- Description -->
+                
                   <div>
                     <h4 class="font-medium text-gray-900 mb-2">Description</h4>
                     <p class="text-gray-600">{{ savings.description }}</p>
                   </div>
 
-                  <!-- Actions -->
+                
                   <div class="flex gap-3">
                     <button
                       @click="$emit('deposit')"

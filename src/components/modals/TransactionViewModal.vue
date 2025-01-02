@@ -2,7 +2,7 @@
 <template>
     <TransitionRoot appear :show="isOpen" as="template">
       <Dialog as="div" @close="close" class="relative z-50">
-        <!-- Backdrop -->
+      
         <TransitionChild
           enter="ease-out duration-300"
           enter-from="opacity-0"
@@ -14,7 +14,7 @@
           <div class="fixed inset-0 bg-black/25" />
         </TransitionChild>
   
-        <!-- Modal -->
+        
         <div class="fixed inset-0 overflow-y-auto">
           <div class="flex min-h-full items-center justify-center p-4">
             <TransitionChild

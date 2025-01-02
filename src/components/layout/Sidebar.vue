@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- Mobile Menu Button -->
+  
     <button 
       @click="isOpen = !isOpen"
       class="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-lg bg-white shadow-lg"
@@ -9,20 +9,20 @@
       <X v-else class="w-6 h-6" />
     </button>
 
-    <!-- Sidebar -->
+
     <div 
       :class="[
         'fixed inset-y-0 left-0 z-40 w-64 bg-white transform transition-transform duration-300 ease-in-out lg:translate-x-0',
         isOpen ? 'translate-x-0' : '-translate-x-full'
       ]"
     >
-      <!-- Logo -->
+    
       <div class="p-2 border-b">
         <div class="font-inter text-4xl font-extrabold text-green-400">SEEDR</div>
     
       </div>
 
-      <!-- Navigation -->
+    
       <nav class="p-4 space-y-2">
         <router-link
           v-for="item in navItems"
@@ -37,7 +37,6 @@
       </nav>
     </div>
 
-    <!-- Overlay -->
     <div 
       v-if="isOpen"
       @click="isOpen = false"
