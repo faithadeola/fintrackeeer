@@ -14,18 +14,13 @@
             </div>
           </div>
 
-          <button 
-            @click="showTransactionModal = true"
-            class="hidden px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-600 transition-colors"
-          >
-            + Transaction
-          </button>
+        
 
           <Menu as="div" class="relative">
             <MenuButton class="flex items-center gap-2">
               <img 
-                :src="user?.photo || 'https://ui-avatars.com/api/?name=User'" 
-                :alt="user?.username || 'User'"
+                :src="'https://ui-avatars.com/api/?name='+user?.name" 
+                :alt="user?.name"
                 class="w-8 h-8 rounded-full"
               />
               <ChevronDown class="w-4 h-4" />
@@ -71,37 +66,24 @@
         </div>
       </div>
     </div>
-    
-    <TransactionModal 
-      :is-open="showTransactionModal"
-      @close="showTransactionModal = false"
-      @submit="handleTransactionSubmit"
-    />
   </header>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ChevronDown } from 'lucide-vue-next'
-import { auth } from '../../utils/auth'
+import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
+import { auth } from '../../utils/auth'
 import { formatNaira } from '../../utils/currency'
-import TransactionModal from '../modals/TransactionModal.vue'
 const route = useRoute()
 const router = useRouter()
 const toast = useToast()
-const user = auth.getUser()
-const showTransactionModal = ref(false)
+const user = auth.getUser()?.data;
 const handleLogout = () => {
   auth.removeUser()
   toast.success('Successfully logged out!')
   router.push('/')
-}
-const handleTransactionSubmit = (data) => {
-  console.log('Transaction submitted:', data)
-  toast.success('Transaction added successfully!')
 }
 const navigateToProfile = () => {
   router.push('/profile')
