@@ -1,19 +1,19 @@
 <template>
   <div class="min-h-screen flex">
-    <!-- Left side - Auth form -->
+  
     <div class="w-full lg:w-1/2 p-8 flex items-center justify-center">
       <div class="w-full max-w-md">
-        <!-- Logo -->
+    
         <div>
         <div class="mb-8 text-primary text-6xl font-extrabold gap-4">SEEDR  
         </div>
       </div>
-        <!-- Auth Form -->
+      
         <div>
           <h1 class="text-heading-1 font-semibold mb-2">Get started now</h1>
           <p class="text-gray-600 mb-8">Enter your details to access your account</p>
 
-          <!-- Social Login Buttons -->
+        
           
           <AuthForm
             :is-signup="isSignup"
@@ -21,7 +21,7 @@
             @submit="handleSubmit"
           />
 
-          <!-- Toggle Auth Mode -->
+        
           <p class="mt-6 text-center text-sm text-gray-600">
             {{ isSignup ? 'Already have an account?' : "Don't have an account?" }}
             <a href="#" @click.prevent="isSignup = !isSignup" class="text-primary">
@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <!-- Right side - Preview -->
+    
     <div class="hidden lg:block w-1/2 bg-black p-8">
       <div class="h-full flex flex-col justify-center items-center text-white">
         <h2 class="text-heading-1 font-semibold mb-4">The simplest way to manage your finance</h2>
