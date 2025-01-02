@@ -68,7 +68,7 @@ const navItems = [
   { name: 'Budgets', path: '/budgets', icon: PiggyBank },
   { name: 'Transactions', path: '/transactions', icon: Wallet },
   //{ name: 'Accounts', path: '/accounts', icon: Wallet },
-  { name: 'Savings', path: '/savings', icon: CoinsIcon },
+  //{ name: 'Savings', path: '/savings', icon: CoinsIcon },
   //{ name: 'Debts', path: '/debts', icon: CreditCard },
 ]
 
